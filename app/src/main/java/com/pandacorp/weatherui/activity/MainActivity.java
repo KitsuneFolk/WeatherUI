@@ -1,8 +1,8 @@
-package com.pandacorp.weatherui;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.pandacorp.weatherui.activity;
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.pandacorp.weatherui.databinding.ActivityMainBinding;
 
