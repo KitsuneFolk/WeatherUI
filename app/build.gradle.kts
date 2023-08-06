@@ -46,4 +46,11 @@ dependencies {
     implementation ("io.reactivex.rxjava3:rxjava:3.1.6")
     implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
 
+    // Dagger
+    val daggerVersion = "2.47"
+    implementation ("com.google.dagger:dagger:$daggerVersion")
+    implementation ("com.google.dagger:dagger-android-support:$daggerVersion")
+    annotationProcessor ("com.google.dagger:dagger-compiler:$daggerVersion")
+    annotationProcessor ("com.google.dagger:dagger-android-processor:$daggerVersion")
+
 }
