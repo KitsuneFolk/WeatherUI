@@ -10,6 +10,11 @@
         <item name="rippleColor">?rippleColor</item>
     </style>
 
+    <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:colorPrimary">?android:attr/textColor</item>
+        <item name="android:background">?colorPrimary</item>
+    </style>
+
     <style name="SnackBarStyle" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">?android:attr/colorPrimary</item>
         <item name="android:textColor">?android:textColor</item>

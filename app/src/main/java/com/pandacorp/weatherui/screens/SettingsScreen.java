@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.pandacorp.weatherui.R;
 import com.pandacorp.weatherui.databinding.ScreenSettingsBinding;
-
 
 public class SettingsScreen extends Fragment {
     private ScreenSettingsBinding binding;
@@ -30,6 +30,8 @@ public class SettingsScreen extends Fragment {
     }
 
     private void initViews() {
-
+        binding.toolbarInclude.toolbar.setTitle(R.string.settings);
+        binding.toolbarInclude.toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
+        binding.toolbarInclude.toolbar.setNavigationOnClickListener(v -> requireActivity().onBackPressed());
     }
 }
