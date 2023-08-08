@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.screens;
+package com.pandacorp.weatherui.presentation.screens;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 

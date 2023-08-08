@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.adapter;
+package com.pandacorp.weatherui.presentation.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pandacorp.weatherui.databinding.ItemSettingsBinding;
-import com.pandacorp.weatherui.utils.Constants;
+import com.pandacorp.weatherui.presentation.utils.Constants;
 
 import java.util.List;
 

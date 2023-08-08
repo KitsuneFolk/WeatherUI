@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.screens;
+package com.pandacorp.weatherui.presentation.screens;
 
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,8 +14,8 @@ import androidx.preference.PreferenceManager;
 
 import com.pandacorp.weatherui.R;
 import com.pandacorp.weatherui.databinding.ScreenSettingsBinding;
-import com.pandacorp.weatherui.utils.Constants;
-import com.pandacorp.weatherui.utils.dialogs.SettingsDialog;
+import com.pandacorp.weatherui.presentation.utils.Constants;
+import com.pandacorp.weatherui.presentation.utils.dialogs.SettingsDialog;
 
 public class SettingsScreen extends Fragment {
     private ScreenSettingsBinding binding;

@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.utils;
+package com.pandacorp.weatherui.presentation.utils;
 
 public sealed class Constants {
     public static final class Dialog extends Constants {

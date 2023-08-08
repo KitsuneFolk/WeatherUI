@@ -1,11 +1,11 @@
-package com.pandacorp.weatherui.activity;
+package com.pandacorp.weatherui.presentation.activity;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.pandacorp.weatherui.databinding.ActivityMainBinding;
-import com.pandacorp.weatherui.utils.PreferenceHandler;
+import com.pandacorp.weatherui.presentation.utils.PreferenceHandler;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;

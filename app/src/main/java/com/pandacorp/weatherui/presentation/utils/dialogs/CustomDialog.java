@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.utils.dialogs;
+package com.pandacorp.weatherui.presentation.utils.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;

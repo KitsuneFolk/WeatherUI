@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.adapter;
+package com.pandacorp.weatherui.presentation.adapter;
 
 import android.graphics.drawable.Drawable;
 

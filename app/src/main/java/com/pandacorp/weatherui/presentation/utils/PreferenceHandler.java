@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.utils;
+package com.pandacorp.weatherui.presentation.utils;
 
 import android.content.Context;
 import android.content.res.Configuration;

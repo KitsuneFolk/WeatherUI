@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.utils.dialogs;
+package com.pandacorp.weatherui.presentation.utils.dialogs;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,10 +8,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.pandacorp.weatherui.R;
-import com.pandacorp.weatherui.adapter.SettingsAdapter;
-import com.pandacorp.weatherui.adapter.SettingsItem;
+import com.pandacorp.weatherui.presentation.adapter.SettingsAdapter;
+import com.pandacorp.weatherui.presentation.adapter.SettingsItem;
 import com.pandacorp.weatherui.databinding.DialogSettingsBinding;
-import com.pandacorp.weatherui.utils.Constants;
+import com.pandacorp.weatherui.presentation.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
