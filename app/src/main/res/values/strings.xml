@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">WeatherUI</string>
-
+    <string name="app_name" translatable="false">WeatherUI</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -9,4 +8,6 @@
     <string name="theme">Theme</string>
     <string name="version">Version %1$s</string>
     <string name="another">Another</string>
+
+    <string name="cancel">Cancel</string>
 </resources>

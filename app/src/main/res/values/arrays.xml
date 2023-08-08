@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Themes -->
+    <string name="defaultTheme" translatable="false">follow_system</string>
+
+    <string-array name="ThemesTitles">
+        <item>Follow system</item>
+        <item>Blue</item>
+        <item>Dark</item>
+        <item>Purple</item>
+        <item>Red</item>
+    </string-array>
+
+
+    <string-array name="ThemesValues" translatable="false">
+        <item>follow_system</item>
+        <item>blue</item>
+        <item>dark</item>
+        <item>purple</item>
+        <item>red</item>
+    </string-array>
+
+    <string-array name="ThemesDrawables" translatable="false">
+        <item>@drawable/ic_follow_system</item>
+        <item>@color/BlueTheme_colorBackground</item>
+        <item>@color/DarkTheme_colorBackground</item>
+        <item>@color/PurpleTheme_colorBackground</item>
+        <item>@color/RedTheme_colorBackground</item>
+    </string-array>
+
+    <!-- Languages -->
+    <string name="defaultLanguage">en</string>
+
+    <string-array name="LanguagesTitles" translatable="false">
+        <item>English</item>
+        <item>Русский</item>
+        <item>Українська</item>
+    </string-array>
+
+    <string-array name="LanguagesValues" translatable="false">
+        <item>en</item>
+        <item>ru</item>
+        <item>uk</item>
+    </string-array>
+
+    <string-array name="LanguagesDrawables" translatable="false">
+        <item>@drawable/flag_uk</item>
+        <item>@drawable/flag_russia</item>
+        <item>@drawable/flag_ukraine</item>
+    </string-array>
+
+</resources>

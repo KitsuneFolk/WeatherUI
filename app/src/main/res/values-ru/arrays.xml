@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="defaultLanguage">ru</string>
+
+    <string-array name="ThemesTitles">
+        <item>Тема устройства</item>
+        <item>Синяя</item>
+        <item>Тёмная</item>
+        <item>Фиолетовая</item>
+        <item>Красная</item>
+    </string-array>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings -->
+    <string name="settings">Налаштування</string>
+    <string name="appearance">Зовнiшний вигляд</string>
+    <string name="language">Мова</string>
+    <string name="theme">Тема</string>
+    <string name="version">Версія %1$s</string>
+    <string name="another">Інше</string>
+
+    <string name="cancel">Скасувати</string>
+</resources>

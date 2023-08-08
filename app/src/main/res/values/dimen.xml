@@ -9,5 +9,6 @@
 
     <dimen name="stroke">1dp</dimen>
 
+    <dimen name="maxHeight">320dp</dimen>
     <dimen name="maxWidth">320dp</dimen>
 </resources>
