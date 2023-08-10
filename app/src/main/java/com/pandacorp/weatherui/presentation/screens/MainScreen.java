@@ -12,15 +12,26 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.MenuProvider;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.weatherui.R;
 import com.pandacorp.weatherui.databinding.ScreenMainBinding;
+import com.pandacorp.weatherui.domain.model.WeatherItem;
+import com.pandacorp.weatherui.presentation.WeatherPresenter;
+import com.pandacorp.weatherui.presentation.WeatherView;
+import com.pandacorp.weatherui.presentation.utils.PreferenceHandler;
 
-public class MainScreen extends Fragment {
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
+
+public class MainScreen extends DaggerFragment implements WeatherView {
     private ScreenMainBinding binding;
     private NavController navController;
+
+    @Inject
+    WeatherPresenter weatherPresenter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +46,19 @@ public class MainScreen extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         binding = null;
+        weatherPresenter.onDestroy();
+    }
+
+    @Override
+    public void displayWeather(WeatherItem weatherItem) {
+        String currentTemperature = String.valueOf(weatherItem.getMain().getTemp());
+        binding.textView.setText(currentTemperature);
+        Snackbar.make(binding.textView, "Success", Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayError(String errorMessage) {
+        Snackbar.make(binding.textView, "Error: " + errorMessage, Snackbar.LENGTH_SHORT).show();
     }
 
     private void initViews() {
@@ -55,6 +79,7 @@ public class MainScreen extends Fragment {
                 return false;
             }
         }, getViewLifecycleOwner());
-
+        weatherPresenter.setWeatherView(this);
+        weatherPresenter.getWeather(51.5074, -0.1278, PreferenceHandler.getCurrentLanguageKey(requireContext()));
     }
 }

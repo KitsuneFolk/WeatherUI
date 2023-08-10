@@ -45,8 +45,12 @@ public class PreferenceHandler {
     }
 
     public static void setLanguage(String language) {
-        Locale.setDefault(new Locale(language)); // Still need to rewrite еру the default Locale despite using AppCompatDelegate
+        Locale.setDefault(new Locale(language)); // Still need to rewrite the default Locale despite using AppCompatDelegate
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(language));
+    }
+
+    public static String getCurrentLanguageKey(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.Dialog.LANGUAGE, context.getResources().getString(R.string.defaultLanguage));
     }
 
     private static boolean isDeviceDarkMode(Context context) {

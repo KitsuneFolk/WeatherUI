@@ -54,7 +54,7 @@ public class SettingsDialog extends CustomDialog {
         SettingsAdapter adapter = new SettingsAdapter(itemsList, preferenceKey);
         adapter.setOnClickListener(settingsItem -> {
             String value = settingsItem.getValue();
-            if (sp.getString(preferenceKey, defaultValue).equals(value)) { //TODO: Replace "" with a default value
+            if (sp.getString(preferenceKey, defaultValue).equals(value)) {
                 return;
             }
             sp.edit().putString(preferenceKey, value).apply();

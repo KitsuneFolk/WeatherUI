@@ -31,3 +31,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# API key to access OpenWeatherMap
+app/src/main/assets/API_KEY.properties
