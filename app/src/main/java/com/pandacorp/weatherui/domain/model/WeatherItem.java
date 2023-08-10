@@ -1,9 +1,10 @@
 package com.pandacorp.weatherui.domain.model;
 
 
+import java.io.Serializable;
 import java.util.List;
 
-public class WeatherItem {
+public class WeatherItem implements Serializable {
     private List<Weather> weather;
     private Main main;
 

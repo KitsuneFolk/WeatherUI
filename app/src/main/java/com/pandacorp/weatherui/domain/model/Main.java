@@ -1,6 +1,8 @@
 package com.pandacorp.weatherui.domain.model;
 
-public class Main {
+import java.io.Serializable;
+
+public class Main implements Serializable {
     private double temp;
     private double feels_like;
     private double temp_min;

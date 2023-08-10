@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.presentation.screens;
+package com.pandacorp.weatherui.presentation.view.screens;
 
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;

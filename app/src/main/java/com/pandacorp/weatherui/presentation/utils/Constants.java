@@ -6,4 +6,6 @@ public sealed class Constants {
         public static final String THEME = "Themes";
         public static final String BUNDLE_KEY = "SHOWED_DIALOG";
     }
+
+    public static final String SAVED_WEATHER_MODEL = "SAVED_WEATHER_MODEL";
 }

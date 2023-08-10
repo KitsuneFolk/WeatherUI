@@ -16,7 +16,7 @@
         android:theme="@style/BlueTheme"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.activity.MainActivity"
+            android:name=".presentation.view.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

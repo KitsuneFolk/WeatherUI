@@ -12,9 +12,7 @@ import java.util.Properties;
 
 import javax.inject.Inject;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class WeatherRepositoryImpl implements WeatherRepository {
     private final WeatherApiService weatherApiService;
@@ -35,8 +33,6 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     }
 
     public Observable<WeatherItem> getWeather(Double latitude, Double longitude, String excludeParts, String units, String language) {
-        return weatherApiService.getWeather(latitude, longitude, excludeParts, apiKey, units, language)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return weatherApiService.getWeather(latitude, longitude, excludeParts, apiKey, units, language);
     }
 }

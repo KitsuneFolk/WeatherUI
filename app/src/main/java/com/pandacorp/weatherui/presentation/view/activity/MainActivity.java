@@ -1,4 +1,4 @@
-package com.pandacorp.weatherui.presentation.activity;
+package com.pandacorp.weatherui.presentation.view.activity;
 
 import android.os.Bundle;
 

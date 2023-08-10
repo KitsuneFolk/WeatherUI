@@ -8,8 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.pandacorp.weatherui.R;
-import com.pandacorp.weatherui.presentation.adapter.SettingsAdapter;
-import com.pandacorp.weatherui.presentation.adapter.SettingsItem;
+import com.pandacorp.weatherui.presentation.view.adapter.SettingsAdapter;
+import com.pandacorp.weatherui.presentation.view.adapter.SettingsItem;
 import com.pandacorp.weatherui.databinding.DialogSettingsBinding;
 import com.pandacorp.weatherui.presentation.utils.Constants;
 

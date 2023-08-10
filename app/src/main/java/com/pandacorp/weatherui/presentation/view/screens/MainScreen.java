@@ -1,7 +1,8 @@
-package com.pandacorp.weatherui.presentation.screens;
+package com.pandacorp.weatherui.presentation.view.screens;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,10 +18,10 @@ import androidx.navigation.NavController;
 import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.weatherui.R;
 import com.pandacorp.weatherui.databinding.ScreenMainBinding;
-import com.pandacorp.weatherui.domain.model.WeatherItem;
-import com.pandacorp.weatherui.presentation.WeatherPresenter;
-import com.pandacorp.weatherui.presentation.WeatherView;
+import com.pandacorp.weatherui.presentation.model.WeatherModel;
+import com.pandacorp.weatherui.presentation.presenter.WeatherPresenter;
 import com.pandacorp.weatherui.presentation.utils.PreferenceHandler;
+import com.pandacorp.weatherui.presentation.view.WeatherView;
 
 import javax.inject.Inject;
 
@@ -37,28 +38,40 @@ public class MainScreen extends DaggerFragment implements WeatherView {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = ScreenMainBinding.inflate(getLayoutInflater());
 
+        weatherPresenter.setWeatherView(this);
+        if (savedInstanceState != null) {
+            weatherPresenter.onRestoreInstanceState(savedInstanceState);
+        }
+        weatherPresenter.getWeather(51.5074, -0.1278, PreferenceHandler.getCurrentLanguageKey(requireContext()));
+
         initViews();
 
         return binding.getRoot();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        binding = null;
-        weatherPresenter.onDestroy();
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        weatherPresenter.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
-    public void displayWeather(WeatherItem weatherItem) {
-        String currentTemperature = String.valueOf(weatherItem.getMain().getTemp());
+    public void onDestroyView() {
+        weatherPresenter.onDestroy();
+        weatherPresenter = null;
+        binding = null;
+        super.onDestroyView();
+    }
+
+    @Override
+    public void displayWeather(WeatherModel weatherModel) {
+        String currentTemperature = String.valueOf(weatherModel.getWeatherItem().getMain().getTemp());
         binding.textView.setText(currentTemperature);
-        Snackbar.make(binding.textView, "Success", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void displayError(String errorMessage) {
-        Snackbar.make(binding.textView, "Error: " + errorMessage, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.textView, errorMessage, Snackbar.LENGTH_LONG).setTextColor(Color.WHITE).show();
     }
 
     private void initViews() {
@@ -79,7 +92,5 @@ public class MainScreen extends DaggerFragment implements WeatherView {
                 return false;
             }
         }, getViewLifecycleOwner());
-        weatherPresenter.setWeatherView(this);
-        weatherPresenter.getWeather(51.5074, -0.1278, PreferenceHandler.getCurrentLanguageKey(requireContext()));
     }
 }

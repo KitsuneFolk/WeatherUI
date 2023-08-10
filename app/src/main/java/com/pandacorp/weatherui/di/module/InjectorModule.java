@@ -3,7 +3,7 @@ package com.pandacorp.weatherui.di.module;
 import android.app.Application;
 import android.content.Context;
 
-import com.pandacorp.weatherui.presentation.screens.MainScreen;
+import com.pandacorp.weatherui.presentation.view.screens.MainScreen;
 
 import dagger.Binds;
 import dagger.Module;
