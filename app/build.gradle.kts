@@ -39,6 +39,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.6.0")
     implementation("androidx.navigation:navigation-ui:2.6.0")
     implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // Tests
     testImplementation("junit:junit:4.13.2")
@@ -47,6 +48,7 @@ dependencies {
 
     // Custom Libraries
     implementation("com.fragula2:fragula-core:2.9") // Swipe to dismiss
+    implementation ("com.github.BirjuVachhani:locus-android:4.1.2") // Get the current location
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

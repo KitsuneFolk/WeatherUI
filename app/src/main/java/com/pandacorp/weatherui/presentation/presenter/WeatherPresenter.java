@@ -1,5 +1,6 @@
 package com.pandacorp.weatherui.presentation.presenter;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -19,9 +20,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class WeatherPresenter {
     private WeatherRepository weatherRepository;
     private WeatherView weatherView;
-    private Disposable subscriber;
+    private Disposable weatherSubscriber;
     @Nullable
     private WeatherModel weatherModel;
+    private Location location;
 
     @Inject
     public WeatherPresenter(WeatherRepository weatherRepository) {
@@ -32,12 +34,16 @@ public class WeatherPresenter {
         this.weatherView = weatherView;
     }
 
+    public void getWeather(String language) {
+        getWeather(location.getLatitude(), location.getLongitude(), language);
+    }
+
     public void getWeather(Double latitude, Double longitude, String language) {
         String units = "metric"; // Celsius
         String excludeParts = "minutely, hourly, daily, alerts";
         if (weatherModel != null) return;
         weatherModel = new WeatherModel();
-        subscriber = weatherRepository.getWeather(latitude, longitude, excludeParts, units, language)
+        weatherSubscriber = weatherRepository.getWeather(latitude, longitude, excludeParts, units, language)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(weatherItem -> {
@@ -71,13 +77,17 @@ public class WeatherPresenter {
     }
 
     public void onDestroy() {
-        if (subscriber != null && !subscriber.isDisposed()) {
-            subscriber.dispose();
+        if (weatherSubscriber != null && !weatherSubscriber.isDisposed()) {
+            weatherSubscriber.dispose();
         }
         weatherView = null;
         weatherModel = null;
-        subscriber = null;
+        location = null;
+        weatherSubscriber = null;
         weatherRepository = null;
     }
 
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 }

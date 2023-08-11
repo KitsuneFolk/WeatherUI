@@ -3,6 +3,7 @@ package com.pandacorp.weatherui.presentation.view.screens;
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.core.view.MenuProvider;
 import androidx.navigation.NavController;
 
+import com.birjuvachhani.locus.Locus;
 import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.weatherui.R;
 import com.pandacorp.weatherui.databinding.ScreenMainBinding;
@@ -42,7 +44,15 @@ public class MainScreen extends DaggerFragment implements WeatherView {
         if (savedInstanceState != null) {
             weatherPresenter.onRestoreInstanceState(savedInstanceState);
         }
-        weatherPresenter.getWeather(51.5074, -0.1278, PreferenceHandler.getCurrentLanguageKey(requireContext()));
+        Locus.INSTANCE.getCurrentLocation(requireContext(),
+                result -> {
+                    Location location = result.getLocation();
+                    if (location != null) {
+                        weatherPresenter.setLocation(location);
+                        weatherPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
+                    }
+                    return null;
+                });
 
         initViews();
 
@@ -57,8 +67,10 @@ public class MainScreen extends DaggerFragment implements WeatherView {
 
     @Override
     public void onDestroyView() {
-        weatherPresenter.onDestroy();
-        weatherPresenter = null;
+        if (weatherPresenter != null) {
+            weatherPresenter.onDestroy();
+            weatherPresenter = null;
+        }
         binding = null;
         super.onDestroyView();
     }
