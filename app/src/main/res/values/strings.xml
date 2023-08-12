@@ -10,4 +10,10 @@
     <string name="another">Another</string>
 
     <string name="cancel">Cancel</string>
+
+
+    <!-- Weather -->
+    <string name="feelsLike">Feels like</string>
+    <string name="humidity">Humidity</string>
+
 </resources>

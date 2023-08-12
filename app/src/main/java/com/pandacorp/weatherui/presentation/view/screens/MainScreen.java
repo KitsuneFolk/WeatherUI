@@ -20,6 +20,8 @@ import com.birjuvachhani.locus.Locus;
 import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.weatherui.R;
 import com.pandacorp.weatherui.databinding.ScreenMainBinding;
+import com.pandacorp.weatherui.domain.model.Weather;
+import com.pandacorp.weatherui.domain.model.WeatherItem;
 import com.pandacorp.weatherui.presentation.model.WeatherModel;
 import com.pandacorp.weatherui.presentation.presenter.WeatherPresenter;
 import com.pandacorp.weatherui.presentation.utils.PreferenceHandler;
@@ -68,13 +70,25 @@ public class MainScreen extends DaggerFragment implements WeatherView {
     @Override
     public void displayWeather(WeatherModel weatherModel) {
         assert weatherModel.getWeatherItem() != null;
-        String currentTemperature = String.valueOf(weatherModel.getWeatherItem().getMain().getTemp());
-        binding.textView.setText(currentTemperature);
+        WeatherItem weatherItem = weatherModel.getWeatherItem();
+        String unitMark = "ᶜ";
+        String currentTemperature = weatherItem.getMain().getTemp() + "°" + unitMark;
+        String location = ""; //TODO:
+        String feelsLike = requireContext().getString(R.string.feelsLike) + " " + weatherItem.getMain().getFeelsLike() + "°" + unitMark;
+        String humidity = requireContext().getString(R.string.humidity) + " " + weatherItem.getMain().getHumidity() + "%";
+        binding.locationText.setText(location);
+        binding.temperatureText.setText(currentTemperature);
+        Weather weather = weatherItem.getWeather().get(0);
+        if (weather != null) {
+            binding.descriptionText.setText(weather.getDescription());
+        }
+        binding.feelsLikeText.setText(feelsLike);
+        binding.humidityText.setText(humidity);
     }
 
     @Override
     public void displayError(String errorMessage) {
-        Snackbar.make(binding.textView, errorMessage, Snackbar.LENGTH_LONG).setTextColor(Color.WHITE).show();
+        Snackbar.make(binding.getRoot(), errorMessage, Snackbar.LENGTH_LONG).setTextColor(Color.WHITE).show();
     }
 
     private void restoreInstanceState(Bundle savedInstanceState) {

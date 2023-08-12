@@ -9,4 +9,9 @@
     <string name="another">Другое</string>
 
     <string name="cancel">Отмена</string>
+
+    <!-- Weather -->
+    <string name="feelsLike">Ощущается как</string>
+    <string name="humidity">Влажность</string>
+
 </resources>
