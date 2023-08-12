@@ -40,19 +40,9 @@ public class MainScreen extends DaggerFragment implements WeatherView {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = ScreenMainBinding.inflate(getLayoutInflater());
 
-        weatherPresenter.setWeatherView(this);
-        if (savedInstanceState != null) {
-            weatherPresenter.onRestoreInstanceState(savedInstanceState);
-        }
-        Locus.INSTANCE.getCurrentLocation(requireContext(),
-                result -> {
-                    Location location = result.getLocation();
-                    if (location != null) {
-                        weatherPresenter.setLocation(location);
-                        weatherPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
-                    }
-                    return null;
-                });
+        restoreInstanceState(savedInstanceState);
+
+        getLocation();
 
         initViews();
 
@@ -66,17 +56,18 @@ public class MainScreen extends DaggerFragment implements WeatherView {
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroy() {
         if (weatherPresenter != null) {
             weatherPresenter.onDestroy();
             weatherPresenter = null;
         }
         binding = null;
-        super.onDestroyView();
+        super.onDestroy();
     }
 
     @Override
     public void displayWeather(WeatherModel weatherModel) {
+        assert weatherModel.getWeatherItem() != null;
         String currentTemperature = String.valueOf(weatherModel.getWeatherItem().getMain().getTemp());
         binding.textView.setText(currentTemperature);
     }
@@ -84,6 +75,26 @@ public class MainScreen extends DaggerFragment implements WeatherView {
     @Override
     public void displayError(String errorMessage) {
         Snackbar.make(binding.textView, errorMessage, Snackbar.LENGTH_LONG).setTextColor(Color.WHITE).show();
+    }
+
+    private void restoreInstanceState(Bundle savedInstanceState) {
+        weatherPresenter.setWeatherView(this);
+        if (savedInstanceState != null) {
+            weatherPresenter.onRestoreInstanceState(savedInstanceState);
+        }
+    }
+
+    private void getLocation() {
+        if (!weatherPresenter.isLocationSet()) {
+            Locus.INSTANCE.getCurrentLocation(requireContext(), result -> {
+            Location location = result.getLocation();
+            if (location != null) {
+                weatherPresenter.setLocation(location.getLatitude(), location.getLongitude());
+                weatherPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
+            }
+            return null;
+            });
+        }
     }
 
     private void initViews() {

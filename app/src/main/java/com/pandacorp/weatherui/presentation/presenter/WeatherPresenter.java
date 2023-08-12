@@ -1,9 +1,6 @@
 package com.pandacorp.weatherui.presentation.presenter;
 
-import android.location.Location;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
 
 import com.pandacorp.weatherui.domain.repository.WeatherRepository;
 import com.pandacorp.weatherui.presentation.model.WeatherModel;
@@ -21,9 +18,7 @@ public class WeatherPresenter {
     private WeatherRepository weatherRepository;
     private WeatherView weatherView;
     private Disposable weatherSubscriber;
-    @Nullable
-    private WeatherModel weatherModel;
-    private Location location;
+    private WeatherModel weatherModel = new WeatherModel();
 
     @Inject
     public WeatherPresenter(WeatherRepository weatherRepository) {
@@ -35,14 +30,13 @@ public class WeatherPresenter {
     }
 
     public void getWeather(String language) {
-        getWeather(location.getLatitude(), location.getLongitude(), language);
+        getWeather(weatherModel.getLatitude(), weatherModel.getLongitude(), language);
     }
 
     public void getWeather(Double latitude, Double longitude, String language) {
         String units = "metric"; // Celsius
         String excludeParts = "minutely, hourly, daily, alerts";
-        if (weatherModel != null) return;
-        weatherModel = new WeatherModel();
+        if (weatherModel.getWeatherItem() != null) return;
         weatherSubscriber = weatherRepository.getWeather(latitude, longitude, excludeParts, units, language)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -56,8 +50,8 @@ public class WeatherPresenter {
                         error -> {
                             if (weatherView != null) {
                                 error.printStackTrace();
-                                weatherModel.setErrorMessage(error.getMessage());
-                                weatherView.displayError(error.getMessage());
+                                weatherModel.setErrorMessage(error.getLocalizedMessage());
+                                weatherView.displayError(error.getLocalizedMessage());
                             }
                         });
     }
@@ -67,8 +61,9 @@ public class WeatherPresenter {
     }
 
     public void onRestoreInstanceState(Bundle outState) {
-        weatherModel = BundleCompatUtils.getSerializableCompat(outState, Constants.SAVED_WEATHER_MODEL, WeatherModel.class);
-        if (weatherModel == null) return;
+        WeatherModel bundleModel = BundleCompatUtils.getSerializableCompat(outState, Constants.SAVED_WEATHER_MODEL, WeatherModel.class);
+        if (bundleModel == null) return;
+        weatherModel = bundleModel;
         if (weatherModel.getErrorMessage() == null) {
             weatherView.displayWeather(weatherModel);
         } else {
@@ -82,12 +77,18 @@ public class WeatherPresenter {
         }
         weatherView = null;
         weatherModel = null;
-        location = null;
         weatherSubscriber = null;
         weatherRepository = null;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLocation(Double latitude, Double longitude) {
+        assert weatherModel != null;
+        weatherModel.setLatitude(latitude);
+        weatherModel.setLongitude(longitude);
+    }
+
+    public Boolean isLocationSet() {
+        if (weatherModel == null) return false;
+        return weatherModel.getLatitude() != null && weatherModel.getLongitude() != null;
     }
 }
