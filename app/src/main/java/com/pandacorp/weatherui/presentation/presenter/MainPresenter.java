@@ -2,6 +2,8 @@ package com.pandacorp.weatherui.presentation.presenter;
 
 import android.os.Bundle;
 
+import com.pandacorp.weatherui.domain.model.WeatherItem;
+import com.pandacorp.weatherui.domain.repository.LocationRepository;
 import com.pandacorp.weatherui.domain.repository.WeatherRepository;
 import com.pandacorp.weatherui.presentation.model.WeatherModel;
 import com.pandacorp.weatherui.presentation.utils.BundleCompatUtils;
@@ -11,18 +13,21 @@ import com.pandacorp.weatherui.presentation.view.WeatherView;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class WeatherPresenter {
+public class MainPresenter { //TODO: Rename
     private WeatherRepository weatherRepository;
+    private LocationRepository locationRepository;
     private WeatherView weatherView;
     private Disposable weatherSubscriber;
     private WeatherModel weatherModel = new WeatherModel();
 
     @Inject
-    public WeatherPresenter(WeatherRepository weatherRepository) {
+    public MainPresenter(WeatherRepository weatherRepository, LocationRepository locationRepository) {
         this.weatherRepository = weatherRepository;
+        this.locationRepository = locationRepository;
     }
 
     public void setWeatherView(WeatherView weatherView) {
@@ -37,7 +42,9 @@ public class WeatherPresenter {
         String units = "metric"; // Celsius
         String excludeParts = "minutely, hourly, daily, alerts";
         if (weatherModel.getWeatherItem() != null) return;
-        weatherSubscriber = weatherRepository.getWeather(latitude, longitude, excludeParts, units, language)
+        weatherSubscriber = Observable.zip(
+                        locationRepository.getLocation(latitude, longitude, 1),
+                        weatherRepository.getWeather(latitude, longitude, excludeParts, units, language), WeatherItem::new)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(weatherItem -> {
@@ -79,6 +86,7 @@ public class WeatherPresenter {
         weatherModel = null;
         weatherSubscriber = null;
         weatherRepository = null;
+        locationRepository = null;
     }
 
     public void setLocation(Double latitude, Double longitude) {

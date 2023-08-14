@@ -21,11 +21,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.weatherui.R;
 import com.pandacorp.weatherui.databinding.ScreenMainBinding;
 import com.pandacorp.weatherui.domain.model.Weather;
-import com.pandacorp.weatherui.domain.model.WeatherItem;
+import com.pandacorp.weatherui.domain.model.CurrentWeather;
 import com.pandacorp.weatherui.presentation.model.WeatherModel;
-import com.pandacorp.weatherui.presentation.presenter.WeatherPresenter;
+import com.pandacorp.weatherui.presentation.presenter.MainPresenter;
 import com.pandacorp.weatherui.presentation.utils.PreferenceHandler;
 import com.pandacorp.weatherui.presentation.view.WeatherView;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -36,7 +38,7 @@ public class MainScreen extends DaggerFragment implements WeatherView {
     private NavController navController;
 
     @Inject
-    WeatherPresenter weatherPresenter;
+    MainPresenter mainPresenter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,15 +55,15 @@ public class MainScreen extends DaggerFragment implements WeatherView {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        weatherPresenter.onSaveInstanceState(outState);
+        mainPresenter.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onDestroy() {
-        if (weatherPresenter != null) {
-            weatherPresenter.onDestroy();
-            weatherPresenter = null;
+        if (mainPresenter != null) {
+            mainPresenter.onDestroy();
+            mainPresenter = null;
         }
         binding = null;
         super.onDestroy();
@@ -70,15 +72,16 @@ public class MainScreen extends DaggerFragment implements WeatherView {
     @Override
     public void displayWeather(WeatherModel weatherModel) {
         assert weatherModel.getWeatherItem() != null;
-        WeatherItem weatherItem = weatherModel.getWeatherItem();
+        CurrentWeather currentWeather = weatherModel.getWeatherItem().getCurrentWeather();
         String unitMark = "ᶜ";
-        String currentTemperature = weatherItem.getMain().getTemp() + "°" + unitMark;
-        String location = ""; //TODO:
-        String feelsLike = requireContext().getString(R.string.feelsLike) + " " + weatherItem.getMain().getFeelsLike() + "°" + unitMark;
-        String humidity = requireContext().getString(R.string.humidity) + " " + weatherItem.getMain().getHumidity() + "%";
+        String currentTemperature = currentWeather.getMain().getTemp() + "°" + unitMark;
+        Map<String, String> locationNames = weatherModel.getWeatherItem().getLocations().get(0).getLocal_names();
+        String location = locationNames.get(PreferenceHandler.getCurrentLanguageKey(requireContext()));
+        String feelsLike = requireContext().getString(R.string.feelsLike) + " " + currentWeather.getMain().getFeelsLike() + "°" + unitMark;
+        String humidity = requireContext().getString(R.string.humidity) + " " + currentWeather.getMain().getHumidity() + "%";
         binding.locationText.setText(location);
         binding.temperatureText.setText(currentTemperature);
-        Weather weather = weatherItem.getWeather().get(0);
+        Weather weather = currentWeather.getWeather().get(0);
         if (weather != null) {
             binding.descriptionText.setText(weather.getDescription());
         }
@@ -92,19 +95,19 @@ public class MainScreen extends DaggerFragment implements WeatherView {
     }
 
     private void restoreInstanceState(Bundle savedInstanceState) {
-        weatherPresenter.setWeatherView(this);
+        mainPresenter.setWeatherView(this);
         if (savedInstanceState != null) {
-            weatherPresenter.onRestoreInstanceState(savedInstanceState);
+            mainPresenter.onRestoreInstanceState(savedInstanceState);
         }
     }
 
     private void getLocation() {
-        if (!weatherPresenter.isLocationSet()) {
+        if (!mainPresenter.isLocationSet()) {
             Locus.INSTANCE.getCurrentLocation(requireContext(), result -> {
             Location location = result.getLocation();
             if (location != null) {
-                weatherPresenter.setLocation(location.getLatitude(), location.getLongitude());
-                weatherPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
+                mainPresenter.setLocation(location.getLatitude(), location.getLongitude());
+                mainPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
             }
             return null;
             });

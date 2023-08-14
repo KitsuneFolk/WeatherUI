@@ -3,7 +3,7 @@ package com.pandacorp.weatherui.data.repository;
 import android.content.res.AssetManager;
 
 import com.pandacorp.weatherui.data.remote.WeatherApiService;
-import com.pandacorp.weatherui.domain.model.WeatherItem;
+import com.pandacorp.weatherui.domain.model.CurrentWeather;
 import com.pandacorp.weatherui.domain.repository.WeatherRepository;
 
 import java.io.IOException;
@@ -32,7 +32,8 @@ public class WeatherRepositoryImpl implements WeatherRepository {
         }
     }
 
-    public Observable<WeatherItem> getWeather(Double latitude, Double longitude, String excludeParts, String units, String language) {
+    @Override
+    public Observable<CurrentWeather> getWeather(Double latitude, Double longitude, String excludeParts, String units, String language) {
         return weatherApiService.getWeather(latitude, longitude, excludeParts, apiKey, units, language);
     }
 }
