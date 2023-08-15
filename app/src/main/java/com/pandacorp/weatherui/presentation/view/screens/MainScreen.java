@@ -76,12 +76,14 @@ public class MainScreen extends DaggerFragment implements WeatherView {
         CurrentWeather currentWeather = weatherModel.getWeatherItem().getCurrentWeather();
         String unitMark = "ᶜ";
         String currentTemperature = currentWeather.getMain().getTemp() + "°" + unitMark;
-        Map<String, String> locationNames = weatherModel.getWeatherItem().getLocations().get(0).getLocal_names();
-        String location = locationNames.get(PreferenceHandler.getCurrentLanguageKey(requireContext()));
         String feelsLike = requireContext().getString(R.string.feelsLike) + " " + currentWeather.getMain().getFeelsLike() + "°" + unitMark;
         String humidity = requireContext().getString(R.string.humidity) + " " + currentWeather.getMain().getHumidity() + "%";
-        binding.locationText.setText(location);
-        binding.temperatureText.setText(currentTemperature);
+        var currentLocation = weatherModel.getWeatherItem().getLocations().get(0);
+        if (currentLocation != null) {
+            Map<String, String> locationNames = currentLocation.getLocal_names();
+            String location = locationNames.get(PreferenceHandler.getCurrentLanguageKey(requireContext()));
+            binding.locationText.setText(location);
+        }
         Weather weather = currentWeather.getWeather().get(0);
         if (weather != null) {
             String description = weather.getDescription();
@@ -89,6 +91,7 @@ public class MainScreen extends DaggerFragment implements WeatherView {
             description = TextFormat.capitalizeFirstLetter(description);
             binding.descriptionText.setText(description);
         }
+        binding.temperatureText.setText(currentTemperature);
         binding.feelsLikeText.setText(feelsLike);
         binding.humidityText.setText(humidity);
     }
