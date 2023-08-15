@@ -25,6 +25,7 @@ import com.pandacorp.weatherui.domain.model.CurrentWeather;
 import com.pandacorp.weatherui.presentation.model.WeatherModel;
 import com.pandacorp.weatherui.presentation.presenter.MainPresenter;
 import com.pandacorp.weatherui.presentation.utils.PreferenceHandler;
+import com.pandacorp.weatherui.presentation.utils.TextFormat;
 import com.pandacorp.weatherui.presentation.view.WeatherView;
 
 import java.util.Map;
@@ -83,7 +84,10 @@ public class MainScreen extends DaggerFragment implements WeatherView {
         binding.temperatureText.setText(currentTemperature);
         Weather weather = currentWeather.getWeather().get(0);
         if (weather != null) {
-            binding.descriptionText.setText(weather.getDescription());
+            String description = weather.getDescription();
+            // Capitalize the first letter
+            description = TextFormat.capitalizeFirstLetter(description);
+            binding.descriptionText.setText(description);
         }
         binding.feelsLikeText.setText(feelsLike);
         binding.humidityText.setText(humidity);
