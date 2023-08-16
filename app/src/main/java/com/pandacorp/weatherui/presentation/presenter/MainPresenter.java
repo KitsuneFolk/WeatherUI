@@ -2,8 +2,11 @@ package com.pandacorp.weatherui.presentation.presenter;
 
 import android.os.Bundle;
 
+import androidx.core.util.Pair;
+
 import com.pandacorp.weatherui.domain.model.WeatherItem;
 import com.pandacorp.weatherui.domain.repository.LocationRepository;
+import com.pandacorp.weatherui.domain.repository.PreferencesRepository;
 import com.pandacorp.weatherui.domain.repository.WeatherRepository;
 import com.pandacorp.weatherui.presentation.model.WeatherModel;
 import com.pandacorp.weatherui.presentation.utils.BundleCompatUtils;
@@ -17,17 +20,23 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class MainPresenter { //TODO: Rename
+public class MainPresenter {
     private WeatherRepository weatherRepository;
     private LocationRepository locationRepository;
+    private PreferencesRepository preferencesRepository;
     private WeatherView weatherView;
     private Disposable weatherSubscriber;
     private WeatherModel weatherModel = new WeatherModel();
 
     @Inject
-    public MainPresenter(WeatherRepository weatherRepository, LocationRepository locationRepository) {
+    public MainPresenter(WeatherRepository weatherRepository, LocationRepository locationRepository, PreferencesRepository preferencesRepository) {
         this.weatherRepository = weatherRepository;
         this.locationRepository = locationRepository;
+        this.preferencesRepository = preferencesRepository;
+        Pair<Double, Double> location = preferencesRepository.getLocation();
+        if (location != null) {
+            setLocation(location.first, location.second);
+        }
     }
 
     public void setWeatherView(WeatherView weatherView) {
@@ -87,16 +96,18 @@ public class MainPresenter { //TODO: Rename
         weatherSubscriber = null;
         weatherRepository = null;
         locationRepository = null;
+        preferencesRepository = null;
     }
 
     public void setLocation(Double latitude, Double longitude) {
-        assert weatherModel != null;
         weatherModel.setLatitude(latitude);
         weatherModel.setLongitude(longitude);
+        if (!preferencesRepository.isNearBy(latitude, longitude)) {
+            preferencesRepository.saveLocation(latitude, longitude);
+        }
     }
 
     public Boolean isLocationSet() {
-        if (weatherModel == null) return false;
         return weatherModel.getLatitude() != null && weatherModel.getLongitude() != null;
     }
 }

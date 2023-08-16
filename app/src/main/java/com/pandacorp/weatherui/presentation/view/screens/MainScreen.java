@@ -110,6 +110,7 @@ public class MainScreen extends DaggerFragment implements WeatherView {
 
     private void getLocation() {
         if (!mainPresenter.isLocationSet()) {
+            // No location, retrieve using Locus
             Locus.INSTANCE.getCurrentLocation(requireContext(), result -> {
             Location location = result.getLocation();
             if (location != null) {
@@ -118,6 +119,9 @@ public class MainScreen extends DaggerFragment implements WeatherView {
             }
             return null;
             });
+        } else {
+            // There might be a location retrieved from SharedPreference
+            mainPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
         }
     }
 

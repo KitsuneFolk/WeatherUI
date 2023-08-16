@@ -1,8 +1,9 @@
 package com.pandacorp.weatherui.domain.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class Location {
+public class Location implements Serializable {
     private String name;
     private Map<String, String> local_names;
     private double lat;
