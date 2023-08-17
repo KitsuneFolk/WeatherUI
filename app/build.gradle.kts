@@ -49,7 +49,8 @@ dependencies {
 
     // Custom Libraries
     implementation("com.fragula2:fragula-core:2.9") // Swipe to dismiss
-    implementation ("com.github.BirjuVachhani:locus-android:4.1.2") // Get the current location
+    implementation("com.github.BirjuVachhani:locus-android:4.1.2") // Get the current location
+    implementation("androidx.core:core-splashscreen:1.0.1") // Show the Splash screen
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

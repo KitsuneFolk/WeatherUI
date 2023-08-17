@@ -3,6 +3,7 @@ package com.pandacorp.weatherui.presentation.view.activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
 
 import com.pandacorp.weatherui.databinding.ActivityMainBinding;
 import com.pandacorp.weatherui.presentation.utils.PreferenceHandler;
@@ -12,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
         PreferenceHandler.setLanguage(this);
         super.onCreate(savedInstanceState);
         PreferenceHandler.setTheme(this);
