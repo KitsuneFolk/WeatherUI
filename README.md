@@ -14,5 +14,4 @@ Here are some screenshots of the app:
 <img src="https://raw.githubusercontent.com/MrRuslanYT/WeatherUI/master/.github/images/weatherui-main-screen.jpg" width="200" height="449" />
 
 
-
-To run this app you would need to get your API key from https://openweathermap.org/ Then create a file called `API_KEY.properties` in the `assets` foldder and a field `key` inside of the file(e.g `key=128348192432jsdsdfiaejf`)
+To run this app you would need to get your API key from https://openweathermap.org/ Then create a file called `API_KEY.properties` in the `assets` folder and a field `key` inside of the file(e.g `key=128348192432jsdsdfiaejf`)
