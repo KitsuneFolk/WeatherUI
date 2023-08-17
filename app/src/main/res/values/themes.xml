@@ -32,6 +32,7 @@
         <item name="materialButtonStyle">@style/MaterialButtonStyle</item>
         <item name="toolbarStyle">@style/ToolbarStyle</item>
         <item name="snackbarStyle">@style/SnackBarStyle</item>
+        <item name="snackbarTextViewStyle">@style/SnackBarTextViewStyle</item>
     </style>
 
     <style name="BlueTheme" parent="BaseTheme">

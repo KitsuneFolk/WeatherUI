@@ -2,7 +2,6 @@ package com.pandacorp.weatherui.presentation.view.screens;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -98,7 +97,7 @@ public class MainScreen extends DaggerFragment implements WeatherView {
 
     @Override
     public void displayError(String errorMessage) {
-        Snackbar.make(binding.getRoot(), errorMessage, Snackbar.LENGTH_LONG).setTextColor(Color.WHITE).show();
+        Snackbar.make(binding.getRoot(), errorMessage, Snackbar.LENGTH_LONG).show();
     }
 
     private void restoreInstanceState(Bundle savedInstanceState) {
