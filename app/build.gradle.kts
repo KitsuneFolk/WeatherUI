@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.pandacorp.weatherui"
-    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.pandacorp.weatherui"
         minSdk = 21
-        targetSdk = 33
+        compileSdk = 34
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -36,9 +36,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.navigation:navigation-fragment:2.6.0")
-    implementation("androidx.navigation:navigation-ui:2.6.0")
-    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation("androidx.navigation:navigation-fragment:2.7.2")
+    implementation("androidx.navigation:navigation-ui:2.7.2")
+    implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // Tests
@@ -63,7 +63,7 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
 
     // Dagger
-    val daggerVersion = "2.47"
+    val daggerVersion = "2.48"
     implementation("com.google.dagger:dagger:$daggerVersion")
     implementation("com.google.dagger:dagger-android-support:$daggerVersion")
     annotationProcessor("com.google.dagger:dagger-compiler:$daggerVersion")
