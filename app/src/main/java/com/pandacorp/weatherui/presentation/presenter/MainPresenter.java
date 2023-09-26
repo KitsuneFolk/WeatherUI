@@ -33,10 +33,7 @@ public class MainPresenter {
         this.weatherRepository = weatherRepository;
         this.locationRepository = locationRepository;
         this.preferencesRepository = preferencesRepository;
-        Pair<Double, Double> location = preferencesRepository.getLocation();
-        if (location != null) {
-            setLocation(location.first, location.second);
-        }
+        readLocation();
     }
 
     public void setWeatherView(WeatherView weatherView) {
@@ -102,9 +99,24 @@ public class MainPresenter {
     public void setLocation(Double latitude, Double longitude) {
         weatherModel.setLatitude(latitude);
         weatherModel.setLongitude(longitude);
-        if (!preferencesRepository.isNearBy(latitude, longitude)) {
-            preferencesRepository.saveLocation(latitude, longitude);
+    }
+
+    public void writeLocation(Double latitude, Double longitude) {
+        preferencesRepository.saveLocation(latitude, longitude);
+    }
+
+    /**
+     * Get the saved location from SharedPreferences
+     */
+    public void readLocation() {
+        var location = preferencesRepository.getLocation();
+        if (location != null) {
+            setLocation(location.first, location.second);
         }
+    }
+
+    public Pair<Double, Double> getLocation() {
+        return new Pair<>(weatherModel.getLatitude(), weatherModel.getLongitude());
     }
 
     public Boolean isLocationSet() {

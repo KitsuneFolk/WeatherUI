@@ -9,7 +9,6 @@ import androidx.core.util.Pair;
 import androidx.preference.PreferenceManager;
 
 import com.pandacorp.weatherui.domain.repository.PreferencesRepository;
-import com.pandacorp.weatherui.presentation.utils.HaversineCalculator;
 
 public class PreferencesRepositoryImpl implements PreferencesRepository {
     private final static String LATITUDE = "LATITUDE";
@@ -28,6 +27,7 @@ public class PreferencesRepositoryImpl implements PreferencesRepository {
         }
     }
 
+    @Nullable
     @Override
     public Pair<Double, Double> getLocation() {
         return currentLocation;
@@ -40,18 +40,6 @@ public class PreferencesRepositoryImpl implements PreferencesRepository {
         editor.putFloat(LATITUDE, (float) latitude);
         editor.putFloat(LONGITUDE, (float) longitude);
         editor.apply();
-    }
-
-    @Override
-    public boolean isNearBy(double latitude, double longitude) {
-        if (currentLocation == null) {
-            return false;
-        }
-        if (currentLocation.first == latitude && currentLocation.second == longitude) {
-            return true;
-        }
-        double meters = HaversineCalculator.haversineDistance(currentLocation, Pair.create(latitude, longitude));
-        return meters < 50;
     }
 
     private Pair<Double, Double> retrieveLocation() {

@@ -11,7 +11,7 @@ public class HaversineCalculator {
      * @return a distance in meters between 2 pairs of Latitude and Longitude
      */
     public static double haversineDistance(Pair<Double, Double> location1, Pair<Double, Double> location2) {
-        double earthRadius = 6378; // Radius of the Earth in meters
+        double earthRadius = 6378; // Radius of the Earth in km
 
         double lat1Rad = Math.toRadians(location1.first);
         double lon1Rad = Math.toRadians(location1.second);

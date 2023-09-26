@@ -14,4 +14,7 @@
     <string name="feelsLike">Ощущается как</string>
     <string name="humidity">Влажность</string>
 
+    <string name="updateLocation">Обновить местоположение</string>
+
+    <string name="errorOldLocation">Не удается получить актуальное местоположение, пожалуйста, нажмите кнопку обновить</string>
 </resources>

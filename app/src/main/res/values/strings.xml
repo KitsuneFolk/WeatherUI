@@ -11,9 +11,11 @@
 
     <string name="cancel">Cancel</string>
 
-
     <!-- Weather -->
     <string name="feelsLike">Feels like</string>
     <string name="humidity">Humidity</string>
 
+    <string name="updateLocation">Update Location</string>
+
+    <string name="errorOldLocation">Can\'t get actual location, please click update button</string>
 </resources>

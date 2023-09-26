@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.core.view.MenuProvider;
 import androidx.navigation.NavController;
 
@@ -19,10 +20,12 @@ import com.birjuvachhani.locus.Locus;
 import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.weatherui.R;
 import com.pandacorp.weatherui.databinding.ScreenMainBinding;
-import com.pandacorp.weatherui.domain.model.Weather;
 import com.pandacorp.weatherui.domain.model.CurrentWeather;
+import com.pandacorp.weatherui.domain.model.Weather;
 import com.pandacorp.weatherui.presentation.model.WeatherModel;
 import com.pandacorp.weatherui.presentation.presenter.MainPresenter;
+import com.pandacorp.weatherui.presentation.utils.HaversineCalculator;
+import com.pandacorp.weatherui.presentation.utils.LocationHelper;
 import com.pandacorp.weatherui.presentation.utils.PreferenceHandler;
 import com.pandacorp.weatherui.presentation.utils.TextFormat;
 import com.pandacorp.weatherui.presentation.view.WeatherView;
@@ -107,21 +110,52 @@ public class MainScreen extends DaggerFragment implements WeatherView {
         }
     }
 
-    private void getLocation() {
-        if (!mainPresenter.isLocationSet()) {
-            // No location, retrieve using Locus
+    private void getLocation(boolean forceLocus) {
+        if (!mainPresenter.isLocationSet() || forceLocus) {
             Locus.INSTANCE.getCurrentLocation(requireContext(), result -> {
-            Location location = result.getLocation();
-            if (location != null) {
-                mainPresenter.setLocation(location.getLatitude(), location.getLongitude());
-                mainPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
-            }
-            return null;
+                Location location = result.getLocation();
+                if (location != null) {
+                    mainPresenter.setLocation(location.getLatitude(), location.getLongitude());
+                    mainPresenter.writeLocation(location.getLatitude(), location.getLongitude());
+                    mainPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
+                }
+                if (result.getError() == null) {
+                    binding.updateLocation.setVisibility(View.GONE);
+                }
+                return null;
             });
         } else {
             // There might be a location retrieved from SharedPreference
             mainPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
         }
+        if (!forceLocus) {
+            LocationHelper.canGetLocation(requireContext(), bool -> {
+                if (bool) {
+                    Locus.INSTANCE.getCurrentLocation(requireContext(), result -> {
+                        Location location = result.getLocation();
+                        if (location != null) {
+                            Pair<Double, Double> newLocation = new Pair<>(location.getLatitude(), location.getLongitude());
+                            binding.updateLocation.setVisibility(View.GONE);
+                            Pair<Double, Double> oldLocation = mainPresenter.getLocation();
+                            mainPresenter.setLocation(newLocation.first, newLocation.second);
+                            mainPresenter.writeLocation(newLocation.first, newLocation.second);
+                            // Check if the distance between the locations is more than 50m and call api
+                            if (HaversineCalculator.haversineDistance(oldLocation, newLocation) > 0.05) {
+                                mainPresenter.getWeather(PreferenceHandler.getCurrentLanguageKey(requireContext()));
+                            }
+                        }
+                        return null;
+                    });
+                } else {
+                    binding.updateLocation.setVisibility(View.VISIBLE);
+                    displayError(getResources().getString(R.string.errorOldLocation));
+                }
+            });
+        }
+    }
+
+    private void getLocation() {
+        getLocation(false);
     }
 
     private void initViews() {
@@ -142,5 +176,6 @@ public class MainScreen extends DaggerFragment implements WeatherView {
                 return false;
             }
         }, getViewLifecycleOwner());
+        binding.updateLocation.setOnClickListener(v -> getLocation(true));
     }
 }
