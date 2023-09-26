@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class WeatherItem implements Serializable {
-    private List<Location> locations;
-    private CurrentWeather currentWeather;
+    private final List<Location> locations;
+    private final CurrentWeather currentWeather;
 
     public WeatherItem(List<Location> location, CurrentWeather currentWeather) {
         this.locations = location;
@@ -16,15 +16,7 @@ public class WeatherItem implements Serializable {
         return locations;
     }
 
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
-    }
-
     public CurrentWeather getCurrentWeather() {
         return currentWeather;
-    }
-
-    public void setCurrentWeather(CurrentWeather currentWeather) {
-        this.currentWeather = currentWeather;
     }
 }

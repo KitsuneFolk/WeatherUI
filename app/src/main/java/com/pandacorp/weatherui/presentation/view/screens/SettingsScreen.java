@@ -31,6 +31,40 @@ public class SettingsScreen extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String dialogKey = null;
+        if (themeDialog.isShowing()) {
+            dialogKey = Constants.Dialog.THEME;
+        } else if (languageDialog.isShowing()) {
+            dialogKey = Constants.Dialog.LANGUAGE;
+        }
+        outState.putString(Constants.Dialog.BUNDLE_KEY, dialogKey);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        String showedDialog = savedInstanceState != null ? savedInstanceState.getString(Constants.Dialog.BUNDLE_KEY) : null;
+        if (Constants.Dialog.THEME.equals(showedDialog)) {
+            themeDialog.show();
+        } else if (Constants.Dialog.LANGUAGE.equals(showedDialog)) {
+            languageDialog.show();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (themeDialog != null) {
+            themeDialog.dismiss();
+        }
+        if (languageDialog != null) {
+            languageDialog.dismiss();
+        }
+        super.onDestroy();
+    }
+
     private void initViews() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
         themeDialog = new SettingsDialog(requireContext(), Constants.Dialog.THEME);
@@ -104,39 +138,5 @@ public class SettingsScreen extends Fragment {
 
     private boolean isDialogShown() {
         return (languageDialog.isShowing() || themeDialog.isShowing());
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        String dialogKey = null;
-        if (themeDialog.isShowing()) {
-            dialogKey = Constants.Dialog.THEME;
-        } else if (languageDialog.isShowing()) {
-            dialogKey = Constants.Dialog.LANGUAGE;
-        }
-        outState.putString(Constants.Dialog.BUNDLE_KEY, dialogKey);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        String showedDialog = savedInstanceState != null ? savedInstanceState.getString(Constants.Dialog.BUNDLE_KEY) : null;
-        if (Constants.Dialog.THEME.equals(showedDialog)) {
-            themeDialog.show();
-        } else if (Constants.Dialog.LANGUAGE.equals(showedDialog)) {
-            languageDialog.show();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (themeDialog != null) {
-            themeDialog.dismiss();
-        }
-        if (languageDialog != null) {
-            languageDialog.dismiss();
-        }
-        super.onDestroy();
     }
 }

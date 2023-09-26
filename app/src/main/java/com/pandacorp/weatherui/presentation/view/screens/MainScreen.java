@@ -45,7 +45,7 @@ public class MainScreen extends DaggerFragment implements WeatherView {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = ScreenMainBinding.inflate(getLayoutInflater());
+        binding = ScreenMainBinding.inflate(inflater);
 
         restoreInstanceState(savedInstanceState);
 
