@@ -3,8 +3,8 @@ package com.pandacorp.weatherui.presentation.view.activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.splashscreen.SplashScreen;
 
+import com.pandacorp.splashscreen.SplashScreen;
 import com.pandacorp.weatherui.databinding.ActivityMainBinding;
 import com.pandacorp.weatherui.presentation.utils.PreferenceHandler;
 
