@@ -1,6 +1,6 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android") // Needed to resolve an error, I assume that's because Fragula uses kotlin
+    id("org.jetbrains.kotlin.android") // Needed to resolve an error
 }
 
 android {
